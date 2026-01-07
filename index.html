@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <title>Hangszermentők – PRINT A4</title>
+
+  <style>
+    :root {
+      --ink: #111;
+      --muted: #444;
+      --rule: #1a1a1a;
+
+      --serif: "Times New Roman", Georgia, serif;
+      --sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+      /* Egységes belső margó a lapon */
+      --pad: 7mm;
+
+      /* Hasábköz */
+      --col-gap: 5mm;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      color: var(--ink);
+      font-family: var(--serif);
+      line-height: 1.25;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* ===== A4 lap (képernyőn is A4 arány) ===== */
+    .paper {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto;
+      padding: var(--pad);
+      background: #fff;
+      border: none;
+      box-shadow: none;
+    }
+
+    /* ===== Segédosztályok ===== */
+    .col-break {
+      display: block;
+      height: 0;
+      break-after: column;
+      -webkit-column-break-after: always;
+    }
+
+    .no-split {
+      break-inside: avoid;
+      page-break-inside: avoid;
+      -webkit-column-break-inside: avoid;
+    }
+
+    /* ===== Masthead ===== */
+    .mast {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, auto) minmax(0, 1fr);
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 8px;
+      border-bottom: 3px double var(--rule);
+    }
+
+    .mast .left,
+    .mast .right {
+      font-family: var(--sans);
+      font-size: 10.5px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      line-height: 1.15;
+      max-width: 56mm;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .mast .left {
+      text-align: left;
+    }
+
+    .mast .right {
+      text-align: right;
+      justify-self: end;
+    }
+
+    .mast .title {
+      text-align: center;
+      font-family: var(--sans);
+      font-weight: 800;
+      font-size: 44px;
+      letter-spacing: 0.08em;
+      line-height: 0.95;
+      text-transform: uppercase;
+      margin: 0;
+      max-width: 100%;
+    }
+
+    .mast .subtitle {
+      text-align: center;
+      margin-top: 4px;
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ===== Strap ===== */
+    .strap {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 0 10px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.35);
+      font-family: var(--sans);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+      flex-wrap: wrap;
+    }
+
+    .strap strong {
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    /* ===== Lede ===== */
+    .lede {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.35);
+    }
+
+    .lede h2 {
+      margin: 0 0 6px 0;
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 24px;
+      letter-spacing: -0.01em;
+      line-height: 1.05;
+    }
+
+    .lede .dek {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 13.5px;
+      line-height: 1.32;
+      color: var(--muted);
+    }
+
+    /* ===== Hasábok ===== */
+    .columns {
+      padding-top: 10px;
+      column-count: 3;
+      column-gap: var(--col-gap);
+      column-fill: balance;
+      /* képernyőn oké */
+    }
+
+    /* ===== Cikkek ===== */
+    article {
+      break-inside: auto;
+      -webkit-column-break-inside: auto;
+      margin: 0 0 10px 0;
+      padding: 0 0 8px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+    }
+
+    article:last-child {
+      border-bottom: none;
+    }
+
+    .kicker {
+      font-family: var(--sans);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 700;
+      color: var(--muted);
+      margin: 0 0 4px 0;
+    }
+
+    h3 {
+      font-family: var(--sans);
+      font-weight: 800;
+      font-size: 15px;
+      line-height: 1.15;
+      margin: 0 0 6px 0;
+    }
+
+    .byline {
+      font-family: var(--sans);
+      font-size: 11px;
+      color: var(--muted);
+      margin: 0 0 8px 0;
+      font-style: italic;
+    }
+
+    p {
+      margin: 0 0 7px 0;
+      font-family: var(--serif);
+      font-size: 12px;
+      line-height: 1.35;
+      letter-spacing: 0.01em;
+      text-align: justify;
+      hyphens: none;
+      orphans: 2;
+      widows: 2;
+    }
+
+    /* Drop cap */
+    .dropcap p:first-child::first-letter {
+      float: left;
+      font-family: var(--serif);
+      font-size: 52px;
+      line-height: 0.85;
+      padding: 6px 8px 0 0;
+      font-weight: 600;
+    }
+    /* Firefox / print: "Megoldás" cikk mindig új hasáb tetején induljon */
+.start-col{
+  break-before: column;
+  -webkit-column-break-before: always;
+}
+
+@media print{
+  .start-col{
+    break-before: column !important;
+    -webkit-column-break-before: always !important;
+  }
+}
+
+
+    /* Box */
+    .box {
+      border: 1px solid rgba(0, 0, 0, 0.65);
+      padding: 10px 10px 8px;
+      background: transparent;
+    }
+
+    .box h4 {
+      margin: 0 0 6px 0;
+      font-family: var(--sans);
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+    }
+
+    .box p {
+      font-size: 11.5px;
+    }
+
+    /* ===== Képek ===== */
+    figure {
+      margin: 8px 0 10px 0;
+      break-inside: avoid;
+      -webkit-column-break-inside: avoid;
+    }
+
+    figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+    }
+
+    figcaption {
+      margin-top: 4px;
+      font-family: var(--sans);
+      font-size: 10.5px;
+      line-height: 1.25;
+      color: var(--muted);
+      text-align: left;
+    }
+
+    .figure-logo {
+      width: 44%;
+      margin: 10px auto 12px;
+      break-inside: avoid;
+      -webkit-column-break-inside: avoid;
+      text-align: center;
+    }
+
+    .figure-logo img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      border: none;
+      max-height: 36mm;
+      margin: 0 auto;
+    }
+
+    /* ===== Footer ===== */
+    .contact {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 3px double var(--rule);
+      font-family: var(--sans);
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      justify-content: space-between;
+    }
+
+    .contact strong {
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    /* =======================
+       PRINT STABILIZÁLÁS
+       ======================= */
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    @media print {
+
+      html,
+      body {
+        background: #fff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      /* Chrome nyomtatásnál a legstabilabb: fix A4 méret */
+      .paper {
+        width: 210mm !important;
+        min-height: 297mm !important;
+        margin: 0 !important;
+        padding: var(--pad) !important;
+        background: #fff !important;
+      }
+
+      /* A szétesés fő oka: hasáb balance képekkel.
+         Printben auto-ra állítjuk. */
+      .columns {
+        column-count: 3 !important;
+        column-gap: var(--col-gap) !important;
+        column-fill: auto !important;
+      }
+
+      
+
+      /* Chrome stabilizálás: ne legyen minden elem "avoid" (ettől nyomtatáskor széteshet / megakad) */
+      article{
+        break-inside: auto !important;
+        page-break-inside: auto !important;
+        -webkit-column-break-inside: auto !important;
+      }
+
+      /* Csak a kritikus blokkokat védjük a töréstől */
+      figure, .no-split, .box{
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+        -webkit-column-break-inside: avoid !important;
+      }
+/* (moved) */
+
+      /* Képek ne “rángassák szét” a hasábot */
+      figure img {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 100% !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="paper">
+
+    <header class="mast">
+      <div class="left">Azara Productions</div>
+
+      <div>
+        <h1 class="title">HANGSZERMENTŐK</h1>
+        <div class="subtitle">Digitális hangszermentés és Dramatizált dokumentumfilm</div>
+      </div>
+
+      <div class="right">Kulturális örökségmentés</div>
+    </header>
+
+    <div class="strap">
+      <div><strong>Cseh István</strong> • Príma díjas zeneszerző</div>
+      <div>Kapcsolat • lásd alul</div>
+    </div>
+
+    <section class="lede">
+      <h2>Csendben némulnak el a kultúrtörténeti jelentőségű hangszerek hangjai</h2>
+      <p class="dek">A történelmi hangszerek többek, mint tárgyak:
+        hangok, korszakok és emberi sorsok lenyomatai.
+        Adjunk együtt új életet ezeknek a hangszereknek.</p>
+    </section>
+
+    <main class="columns">
+
+      <article class="dropcap">
+        <p>
+          Tudta, hogy a világ egyik legrégebbi, ma is működőképes orgonája a Kárpát-medencében található,
+          és átvészelte a török időket, a szabadságharcokat, felkeléseket és két világháborút?
+          Tudta, hogy Liszt Ferenc koncertzongorája nem használható?
+          Erkel Ferenc hangszere ma már csak porfogó egy múzeum sarkában?
+        </p>
+      </article>
+
+      <article>
+        <p class="kicker">Bemutatkozás</p>
+        <h3>Arc az ötlet mögött</h3>
+        <p class="byline">Cseh István, zeneszerző</p>
+        <p>Nevemhez többek között olyan alkotások kötődnek, mint a <i>Székely Himnusz</i> és a <i>Nélküled</i>
+          szimfonikus hangszerelése, közel harminc film zenéje, valamint a <i>FINA</i> és az
+          <i>Atlétikai Világbajnokság</i> ceremóniazenéi.
+        </p>
+      </article>
+
+      <figure>
+        <img src="images/LF_zongora.png" alt="Hangszermentők – projektfotó" />
+        <figcaption>Fotó: Liszt Ferenc zongorája.</figcaption>
+      </figure>
+
+      <article>
+        <p class="kicker">Személyes történet</p>
+        <h3>A magyar nemzeti kultúrtörténet nagyja végleg elnémult?</h3>
+        <p>Egy munkám kapcsán lehetőségem nyílt leülni az egyik legnagyobb magyar zeneszerző zongorájához. Sajnos
+          a csalódás hatalmas volt. A hangszer használhatatlan állapotban volt.
+          Megdöbbentő, hogy a magyar zenei kultúrtörténet egy ilyen ikonikus darabja ma már csupán porfogóként létezik
+          egy múzeum sarkában.</p>
+      </article>
+
+      <article>
+        <p class="kicker">Hangszerek sorsa</p>
+        <h3>Évszázadok terhe</h3>
+        <p>A régi hangszereknek gyakran hosszú évtizedeket akár évszázadokat kellett kibírniuk viszontagságos
+          körülmények között. Ennek következtében jelentős sérülések és károsodások keletkezhettek rajtuk. Hangszerészek
+          és restaurátorok hatalmas
+          erőfeszítéseket tesznek azért, hogy megmentsék ezeket a csodálatos hangszereket, azonban vannak olyan esetek,
+          amikor a felújítás már nem lehetséges. Ezek a hangszerek örökre elvesztek a történelem viharaiban.</p>
+      </article>
+
+      <article class="start-col">
+        <p class="kicker">A megoldás</p>
+        <h3>hangszer-digitalizáció</h3>
+        <p>Vannak kiemelten fontos, nemzeti kulturális jelentőségű hangszereink, amelyeknek más sorsuk lehet.
+          A hangszer-digitalizáció segítségével megmenthetjük őket az utókor számára. A felvett anyagokból olyan
+          szoftverhangszerek készülnek, melyek a modern produkciókban is megállják a helyüket és inspirációul
+          szolgálhatnak a kortárs zenészeknek,
+          és nem csak komolyzenei közegben.</p>
+      </article>
+
+
+      <article>
+        <p class="kicker">Technológia</p>
+        <h3>Mintavételezés, archívum, szoftverhangszer</h3>
+        <p>Mintákat készítünk a hangjukról, a lehető legfejlettebb technológiát alkalmazva. A felvételek során arra
+          törekszünk, hogy rögzítsük a hangszerek teljes hangkészletét: nemcsak a zenei hangokat, hanem a mechanikus
+          zajokat, az alkatrészek hangjait, sőt az akusztikus teret is, ezek mind hozzájárulnak az adott hangszer egyedi
+          karakteréhez. A nyers felvételeket archiváljuk a jövő számára, a digitálisan feljavított és kezelt
+          hanganyagokból pedig modern és
+          használható digitális hangszereket hozunk létre.</p>
+      </article>
+
+      <figure class="figure-logo">
+        <img src="images/azara_logo.png" alt="Hangszermentők – projektlogó" />
+      </figure>
+
+      <article class="box">
+        <h4>Felfedezésre váró hangszerek</h4>
+        <p>Egy orgona 1492-ből, Erkel Ferenc harmóniuma, Liszt Ferenc dolgozóasztala (igen, ez is hangszer), Kodály
+          Zoltán zongorája,
+          százéves tárogató, Schunda-cimbalom, és ki tudja, hány elfeledett hangszer vár még felfedezésre, gondoskodásra
+          és digitalizációra.</p>
+      </article>
+
+      <figure>
+        <img src="images/piano_sampling.jpg" alt="Hangszermentők – projektfotó" />
+        <figcaption>Fotó: A digitalizálás folyamata.</figcaption>
+      </figure>
+
+      <figure class="figure-logo">
+        <img src="images/azara_logo2.png" alt="Azara Productions logó" />
+      </figure>
+
+      <div class="col-break"></div>
+
+      <article class="no-split">
+        <p class="kicker">Sorozat koncepció</p>
+        <h3>Dramatizált dokumentumfilm, <br>ahol a hangszerek új életet kapnak</h3>
+        <p>Mindez a Hangszermentők című dramatizált dokumentumfilm-sorozatban teljesedik ki, amely bemutatja a
+          történelmi jelentőségű hangszerek felkutatásának, megőrzésének és digitalizálásának folyamatát, ahogy a modern
+          technológia révén ezek a hangszerek új életre kelnek. Az elkészült szoftverhangszereket a sorozatban ismert
+          hazai előadók is felhasználják egy-egy újonnan születő dalban: így szólalhat meg egy ötszáz éves hangszer egy
+          <i>Bagossy</i>-szerzeményben, vagy egy
+          több mint százéves cimbalom <i>Rúzsa Magdi</i> új dalában. Célja, hogy kulturális örökségünk értékeit a
+          jelenkor zenei világával ismét életre keltse.
+        </p>
+      </article>
+
+      <figure>
+        <img src="images/azara_1.jpg" alt="Hangszermentők – projektfotó" />
+        <figcaption>Fotó: Azara Productions stúdiója.</figcaption>
+      </figure>
+
+      <article>
+        <p class="kicker">A kiállítás</p>
+        <h3>Interaktív élmény mindenkinek</h3>
+        <p>Az elkészült digitális hangszerekből egy interaktív kiállítást is létrehozunk, ahol bárki kipróbálhatja,
+          miként szól egy ötszáz éves orgona, vagy Erkel Ferenc harmóniuma. Megszólal a történelem, és új élménnyé
+          válik.</p>
+      </article>
+
+      <article>
+        <p class="kicker">Partnerség</p>
+        <h3>Örökségünk védelme, közös nemzeti ügy.</h3>
+        <p>Tisztában vagyok vele, hogy a jelenlegi gazdasági környezetben minden vállalati döntés komoly felelősséggel
+          jár.
+          Mégis hiszem, hogy a Hangszermentők projekt olyan ügyet szolgál, amely túlmutat a mindennapi kihívásokon.
+          Kulturális örökségünk megőrzéséről szól, a jövő nemzedékei számára.</p>
+      </article>
+
+      <article>
+        <p class="kicker">Felhívás</p>
+        <h3>Stratégiai partnereket keresünk</h3>
+        <p>
+          A kezdeményezéshez stratégiai partnereket keresünk, akikkel együtt egy olyan kulturális műhelyt hozunk létre,
+          ahol a pótolhatatlan történelmi hangszereket digitálisan megmentjük a pusztulástól,
+          új életet adunk a múlt hangjainak, és példát mutatunk a kulturális értékek felelős megőrzésére.
+        </p>
+      </article>
+
+    </main>
+
+    <footer class="contact">
+      <div><strong>Cseh István</strong> • Príma díjas zeneszerző</div>
+      <div><strong>Azara Productions</strong></div>
+      <div><strong>Web</strong> • www.azara-productions.com</div>
+      <div><strong>Email</strong> • info@azara-productions.com</div>
+    </footer>
+
+  </div>
+</body>
+
+</html>
