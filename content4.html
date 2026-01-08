@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<title>Matyi pincéje – A két szalamandra legendája</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: 'Georgia', serif;
+    background: url('images/oszlop.png') center/cover no-repeat fixed;
+    color: #f5f5f5;
+    padding: 30px;
+    margin: 0;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+}
+
+/* csak egy „láthatatlan” konténer a max-szélesség miatt */
+.container {
+    max-width: 700px;
+    margin: auto;
+    padding: 5px 5px 30px 5px;
+    border-radius: 14px;
+}
+
+h1 {
+    font-size: 30px;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #ffe7a3;
+}
+
+p {
+    line-height: 1.6;
+    font-size: 18px;
+}
+
+.highlight {
+    color: #ffe7a3;
+    font-weight: bold;
+}
+
+/* Távolság doboz */
+.distance-box {
+    margin: 15px 0 25px 0;
+    padding: 12px 16px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.35);
+    font-size: 16px;
+    text-align: center;
+}
+.distance-box button {
+    font-family: inherit;
+    font-size: 16px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background: #ffe7a3;
+    color: #2b1b0c;
+    margin-bottom: 8px;
+}
+.distance-box button:active {
+    transform: scale(0.98);
+}
+.distance-status {
+    display: block;
+    margin-top: 4px;
+    font-size: 15px;
+}
+
+/* gombsor */
+.btn-row {
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* Navigációs gomb – égkék, LENT */
+.nav-btn {
+    display: inline-block;
+    margin: 6px 4px;
+    padding: 9px 18px;
+    background: #68c7ff;
+    color: #033048;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    font-size: 15px;
+}
+.nav-btn:hover {
+    filter: brightness(1.05);
+}
+
+/* Főoldal gomb */
+.home-btn {
+    display: inline-block;
+    margin: 8px 4px 0 4px;
+    padding: 9px 18px;
+    background: #ffd97f;
+    color: #333;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    font-size: 16px;
+}
+.home-btn:hover {
+    filter: brightness(1.05);
+}
+
+/* Mobil finomhangolás */
+@media (max-width: 480px) {
+    body { padding: 15px; }
+    .container { padding: 10px 5px 24px 5px; }
+    h1 { font-size: 26px; }
+    p { font-size: 17px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Matyi pincéje</h1>
+
+<!-- TÁVOLSÁGMÉRÉS -->
+<div class="distance-box">
+    <button id="startNavBtn">Távolság mérése (GPS)</button>
+    <span id="distanceText" class="distance-status">
+        Engedélyezd a helymeghatározást a böngészőben.
+    </span>
+</div>
+
+<p>Ahogy kiléptek a Glanzenberg mélyének suttogó történeteiből, most beléptek a 
+<span class="highlight">Reštaurácia Matej</span> meleg, otthonos illatába, ahol a teák és kávék párája úgy kavarog, mintha maga a hegy mesélne tovább.  
+A selmeci öregek szerint nagyon régen, amikor a város még csak pár faházból és egy lelkes bányászcsapatból állt, egy különös éjszakán a hegy gyomra megmozdult.  
+A föld finoman megremegett, mintha valami – vagy valakik – ébredeznének odalent.</p>
+
+<p>A bányászok azt hitték, új ércerekre bukkannak, de helyette két titokzatos lény bukkant elő a mélységből: karcsú, fénylő testű teremtmények, amelyek úgy csillogtak a fáklyafényben, mintha a hegy tüze rajtuk pihent volna.</p>
+
+<p>A városban gyorsan elterjedt a hír, hogy ezek a lények a föld alatti világ őrei, akik csak ritkán mutatkoznak, és mindig valami fontos változás előtt.  
+A lakók tiszteletük jeléül később több helyen is megörökítették őket, de a legfeltűnőbb és legszebb ábrázolás éppen itt, Matyi pincéjének közelében látható:</p>
+
+
+<p><span class="highlight">egy oszlop oldalán két hatalmas, színes mozaikból kirakott teremtmény kúszik felfelé.</span>  
+Aki itt megáll egy pillanatra, mintha még most is hallaná a hegy mélyének csendes morajlását.</p>
+
+<p style="margin-top:25px;" class="highlight">
+A következő pálya titkos nyitókódja pedig egyszerű:<br>
+annak a neve, amit az oszlopon láttok.
+</p>
+
+<p style="text-align:center; margin-top:15px; font-style:italic;">
+(A legendák szerint ők sosem tévednek el… ti se tegyétek.)
+</p>
+
+<!-- NAVIGÁCIÓ GOMB – LENT, KÉKEN -->
+<div class="btn-row">
+    <a href="https://maps.app.goo.gl/Pf5SjLUB84LBm3YAA"
+       target="_blank"
+       class="nav-btn">
+       📍 Útvonal a Reštaurácia Matejhez
+    </a>
+</div>
+
+<!-- FŐOLDAL GOMB -->
+<div class="btn-row">
+    <a href="index.html" class="home-btn">
+       ⬅ Főoldal
+    </a>
+</div>
+
+</div>
+
+<script>
+// Matyi pincéje – távolságmérés célpontja
+const targetLat = 48.45847681075344;
+const targetLon = 18.896295422685196;
+
+const startBtn = document.getElementById("startNavBtn");
+const distanceText = document.getElementById("distanceText");
+let watchId = null;
+
+// Haversine távolság méterben
+function distanceMeters(lat1, lon1, lat2, lon2) {
+    const R = 6371000;
+    const toRad = x => x * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+function formatDistance(m) {
+    if (m < 5) return "Nagyjából a vendéglőnél vagytok.";
+    if (m < 1000) return m.toFixed(0) + " méter";
+    return (m / 1000).toFixed(2) + " km";
+}
+
+function onPosition(pos) {
+    const lat = pos.coords.latitude;
+    const lon = pos.coords.longitude;
+    const dist = distanceMeters(lat, lon, targetLat, targetLon);
+    distanceText.textContent =
+        "Jelenlegi távolság a vendéglőtől: " + formatDistance(dist);
+}
+
+function onError(err) {
+    distanceText.textContent =
+        "Nem sikerült lekérni a helyzetet. Ellenőrizd a GPS és a jogosultság beállításait.";
+}
+
+startBtn.addEventListener("click", function () {
+    if (!("geolocation" in navigator)) {
+        distanceText.textContent =
+            "A böngésző nem támogatja a helymeghatározást.";
+        return;
+    }
+
+    if (watchId !== null) {
+        navigator.geolocation.clearWatch(watchId);
+        watchId = null;
+        distanceText.textContent = "A távolságmérés szünetel.";
+        startBtn.textContent = "Távolság mérése (GPS)";
+        return;
+    }
+
+    distanceText.textContent = "Helyzet lekérése...";
+    startBtn.textContent = "Mérés leállítása";
+
+    watchId = navigator.geolocation.watchPosition(onPosition, onError, {
+        enableHighAccuracy: true,
+        maximumAge: 5000,
+        timeout: 10000
+    });
+});
+</script>
+
+</body>
+</html>

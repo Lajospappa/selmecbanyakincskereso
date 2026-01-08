@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<title>Úrnő palotája – Az Újvár titkai</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: 'Georgia', serif;
+    background: url('images/jvár.jpg') center/cover no-repeat fixed;
+    margin: 0;
+    padding: 0;
+    color: #f5f2e9;
+}
+
+.container {
+    max-width: 750px;
+    margin: auto;
+    background: rgba(0,0,0,0.68);
+    padding: 35px;
+    border-radius: 12px;
+    margin-top: 30px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.6);
+}
+
+/* Díszes kezdőbetűk */
+.initial {
+    font-size: 42px;
+    font-weight: bold;
+    color: #ffd98a;
+    float: left;
+    margin-right: 6px;
+    line-height: 0.9;
+    font-family: "Georgia", serif;
+    text-shadow: 0 0 10px rgba(255,215,150,0.4);
+}
+
+p {
+    line-height: 1.65;
+    margin-bottom: 18px;
+    font-size: 19px;
+}
+
+/* Cím */
+h1 {
+    text-align:center;
+    color:#ffe7a3;
+    margin-bottom: 25px;
+}
+
+/* Távolság doboz */
+.distance-box {
+    margin: 10px 0 25px 0;
+    padding: 12px 16px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.35);
+    font-size: 16px;
+    text-align: center;
+}
+.distance-box button {
+    font-family: inherit;
+    font-size: 16px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background: #ffe7a3;
+    color: #2b1b0c;
+    margin-bottom: 8px;
+}
+.distance-box button:active {
+    transform: scale(0.98);
+}
+.distance-status {
+    display: block;
+    margin-top: 4px;
+    font-size: 15px;
+}
+
+/* gombsor */
+.btn-row {
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* Navigációs gomb – égkék, lentre */
+.nav-btn {
+    display: inline-block;
+    margin: 6px 4px;
+    padding: 9px 18px;
+    background: #68c7ff;
+    color: #033048;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    font-size: 15px;
+}
+.nav-btn:hover {
+    filter: brightness(1.05);
+}
+
+/* Főoldal gomb */
+.home {
+    display:inline-block;
+    margin-top:12px;
+    padding:12px 20px;
+    background:#ffe7a3;
+    color:#333;
+    font-weight:bold;
+    border-radius:8px;
+    text-decoration:none;
+    box-shadow:0 0 10px rgba(255,231,163,0.5);
+    font-size:16px;
+}
+.home:hover {
+    filter: brightness(1.05);
+}
+
+/* Mobil finomhangolás */
+@media (max-width: 480px) {
+    .container {
+        margin-top: 15px;
+        padding: 22px;
+    }
+    p { font-size: 17px; }
+    h1 { font-size: 26px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Úrnő palotája</h1>
+
+<!-- TÁVOLSÁGMÉRÉS -->
+<div class="distance-box">
+    <button id="startNavBtn">Távolság mérése (GPS)</button>
+    <span id="distanceText" class="distance-status">
+        Engedélyezd a helymeghatározást a böngészőben.
+    </span>
+</div>
+
+<p><span class="initial">B</span>ár az Újvár falai a 16. században épültek fel, amikor Selmecbánya a törökök árnyékában védelemre szorult, a kőből rakott bástyák még ma is őrzik a hajdani őrszemek lépéseinek emlékét. A vár magasról tekint a városra, mint aki nemcsak a múlt felett vigyáz, hanem a benne megbújó történeteket is óvja.</p>
+
+<p><span class="initial">O</span>lyan időket is megélt, amikor az ágyúk készen álltak, a lőportoronyból füst szállt fel, és a katonák nap mint nap azon töprengtek, vajon mikor ér el ide az ellenség. De az erőd végül sosem vált csatatérré. Megmaradt egy különös, csendes helynek, ahol minden rezdülés mintha a hegy szívéből érkezne.</p>
+<div class="map-embed" style="margin:14px 0;">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!4v1767877798340!6m8!1m7!1sCAoSF0NJSE0wb2dLRUlDQWdJQ1RxdmJCbWdF!2m2!1d48.4557915229768!2d18.89614103047802!3f248.94058489020762!4f-1.5950637366996574!5f0.7820865974627469"
+    width="100%"
+    height="320"
+    style="border:0;border-radius:14px;"
+    allowfullscreen
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+</div>
+
+<p><span class="initial">R</span>égen úgy mesélték, hogy a vár egyszer egy titokzatos úrnő kezébe került, aki nem katonaként élt itt, mégis jobban ismerte a falak beszédét, mint bárki más. Azt mondták róla, hogy úgy sétált végig a köveken, mintha a múlt minden lépését hallaná maga alatt.</p>
+
+<p><span class="initial">B</span>izonyos történetek szerint olyan gazdag volt, hogy ha minden érméjét egymás mellé raknák, a lánc elérne Selmecbányától egészen Pozsonyig. A gyerekek gyakran képzelték el a fényes, kacskaringózó pénzösvényt, amely úgy ragyogna a napfényben, mint a bányák rejtett ércerei.</p>
+
+<p><span class="initial">Á</span>llítólag számtalan kérő kereste a kegyét, de ő mindig udvariasan, mégis határozottan visszautasította mindet. Nem kapzsiságból, nem büszkeségből – csupán azért, mert szabad akart maradni, mint a hegy, amelyen a vár áll. Aki érti a történetek súgását, az érteni fogja a döntését is.</p>
+
+<p><span class="initial">L</span>egtöbben mégis azt emlegették különös tulajdonságaként, hogy mindig észrevett olyan apró jeleket, amelyeket mások sosem. Figyelte a falak repedéseit, a szél hangját, a kövek rajzolatát – mintha a világ minden rejtett üzenete hozzá szólt volna.</p>
+
+<p><span class="initial">A</span> mai napig mondják a helyiek: aki elég figyelmesen jár az Újvár körül, az nemcsak a történeteket találja meg, hanem azt a rejtett kulcsot is, amely ott van a sorok elején. Aki látja, annak megnyílik a következő kapu. A többieknek pedig érdemes újra elolvasni a történetet – hiszen néha a legfontosabb dolgok csendben bújnak el.</p>
+
+<!-- NAVIGÁCIÓ – LENT KÉKKEL -->
+<div class="btn-row">
+    <a href="https://maps.app.goo.gl/Gbgae78CLL6fsxVz8"
+       target="_blank"
+       class="nav-btn">
+        📍 Útvonal az Újvárhoz
+    </a>
+</div>
+
+<!-- FŐOLDAL GOMB -->
+<div class="btn-row">
+    <a href="index.html" class="home">⬅ Főoldal</a>
+</div>
+
+</div>
+
+<script>
+// Újvár – távolságmérés célpontja
+const targetLat = 48.45588159857155;
+const targetLon = 18.896004229805616;
+
+const startBtn = document.getElementById("startNavBtn");
+const distanceText = document.getElementById("distanceText");
+let watchId = null;
+
+// Haversine távolság méterben
+function distanceMeters(lat1, lon1, lat2, lon2) {
+    const R = 6371000;
+    const toRad = x => x * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+function formatDistance(m) {
+    if (m < 5) return "Nagyjából az Újvárnál vagytok.";
+    if (m < 1000) return m.toFixed(0) + " méter";
+    return (m / 1000).toFixed(2) + " km";
+}
+
+function onPosition(pos) {
+    const lat = pos.coords.latitude;
+    const lon = pos.coords.longitude;
+    const dist = distanceMeters(lat, lon, targetLat, targetLon);
+    distanceText.textContent =
+        "Jelenlegi távolság az Újvártól: " + formatDistance(dist);
+}
+
+function onError(err) {
+    distanceText.textContent =
+        "Nem sikerült lekérni a helyzetet. Ellenőrizd a GPS és a jogosultság beállításait.";
+}
+
+startBtn.addEventListener("click", function () {
+    if (!("geolocation" in navigator)) {
+        distanceText.textContent =
+            "A böngésző nem támogatja a helymeghatározást.";
+        return;
+    }
+
+    if (watchId !== null) {
+        navigator.geolocation.clearWatch(watchId);
+        watchId = null;
+        distanceText.textContent = "A távolságmérés szünetel.";
+        startBtn.textContent = "Távolság mérése (GPS)";
+        return;
+    }
+
+    distanceText.textContent = "Helyzet lekérése...";
+    startBtn.textContent = "Mérés leállítása";
+
+    watchId = navigator.geolocation.watchPosition(onPosition, onError, {
+        enableHighAccuracy: true,
+        maximumAge: 5000,
+        timeout: 10000
+    });
+});
+</script>
+
+</body>
+</html>

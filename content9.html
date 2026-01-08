@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<title>9. PONT – Dolná Ružová utcácska</title>
+
+<!-- Mobil optimalizálás -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: 'Georgia', serif;
+    background: url('images/luterrozsaja.jpg') center/cover no-repeat fixed;
+    color: #f5f5f5;
+    padding: 40px;
+    margin: 0;
+}
+
+.container {
+    max-width: 700px;
+    margin: auto;
+    background: rgba(0,0,0,0.68);
+    padding: 28px 24px 30px 24px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.7);
+    overflow: hidden; /* ne tudjon semmi kilógni a keretből */
+}
+
+h1 {
+    font-size: 30px;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #ffe7a3;
+}
+
+p {
+    line-height: 1.6;
+    font-size: 18px;
+    margin-bottom: 14px;
+}
+
+.highlight {
+    color: #ffe7a3;
+    font-weight: bold;
+}
+
+h2 {
+    color: #ffe7a3;
+    text-align: center;
+    margin-top: 26px;
+    margin-bottom: 10px;
+}
+
+/* KÉP – hogy biztosan ne lógjon ki */
+.photo {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin: 18px auto;
+    box-shadow: 0 0 18px rgba(0,0,0,0.7);
+    box-sizing: border-box;
+}
+
+/* távolságmérés doboz */
+.distance-box {
+    margin: 10px 0 24px 0;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    font-size: 16px;
+    text-align: center;
+}
+.distance-box button {
+    font-family: inherit;
+    font-size: 16px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background: #ffe7a3;
+    color: #2b1b0c;
+    margin-bottom: 6px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.5);
+}
+.distance-box button:active {
+    transform: scale(0.98);
+}
+.distance-status {
+    display: block;
+    margin-top: 4px;
+    font-size: 15px;
+}
+
+/* Navigációs gomb – kék, lentre */
+.nav-wrapper {
+    text-align: center;
+    margin-top: 20px;
+}
+.navbtn {
+    display:inline-block;
+    padding: 9px 16px;
+    background:#68c7ff;
+    color:#033048;
+    font-weight:bold;
+    font-size:15px;
+    border-radius:7px;
+    text-decoration:none;
+    box-shadow:0 0 8px rgba(0,0,0,0.4);
+}
+
+/* Főoldal gomb */
+.home-btn {
+    display: inline-block;
+    margin-top: 18px;
+    padding: 9px 18px;
+    background: #ffe7a3;
+    color: #333;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    font-size: 16px;
+}
+
+/* mobil finomhangolás */
+@media (max-width: 480px) {
+    body {
+        padding: 20px 10px;
+    }
+    .container {
+        padding: 22px 16px;
+    }
+    h1 {
+        font-size: 24px;
+    }
+    p {
+        font-size: 17px;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>9. PONT – Dolná Ružová utcácska</h1>
+
+<div class="distance-box">
+    <button id="distBtn">Távolság mérése (GPS)</button>
+    <span id="distText" class="distance-status">
+        Engedélyezd a helymeghatározást a böngészőben, hogy lásd, milyen messze vagytok a következő ponthoz.
+    </span>
+</div>
+
+<p>A <span class="highlight">Dolná ružová ulička</span> Selmecbánya egyik legszebb,  
+legfinomabban díszített kis utcája. Nyáron a házfalakon színes rózsák futnak fel,  
+az ablakokból virágok lógnak, és a szűk utca úgy kanyarog lefelé,  
+mintha egy régi festménybe léptetek volna bele.  
+A lépcsők, a kovácsoltvas korlátok, a színes homlokzatok  
+és a völgyre nyíló panoráma együtt adják meg azt a hangulatot,  
+ami miatt az embernek kedve lenne itt leülni egy padra,  
+és csak nézni a várost.</p>
+
+<p>
+Ahogy lassan sétáltok az utca elején,  
+néha érdemes megállni, hátranézni,  
+és észrevenni az apró részleteket:  
+a régi kapuk feletti díszeket, a kis erkélyeket,  
+a falakba rejtett évszámokat.  
+Itt már nem csak házak között mentek át,  
+hanem egy régi bányaváros emlékei között:  
+minden repedés, minden ablakkeret úgy néz ki,  
+mintha történetet őrizne.
+</p>
+
+<img src="images/luterrozsaja.jpg" alt="Luther rózsája" class="photo">
+
+<p>
+Most egy olyan házat kell megtalálnotok,  
+amelyen a <span class="highlight">Luther rózsája</span> látható.
+</p>
+
+<p>Ha felismeritek ezt rószát, akkor a következő állomás kódját is megtaláljátok.  
+Amikor rátaláltok, ne csak a díszt jegyezzétek meg,  
+hanem <span class="highlight">a kétjegyú számot is</span> –  
+mert erre lesz szükségetek az igazi kincs kinyitásához.</p>
+
+<div class="nav-wrapper">
+    <a href="https://maps.app.goo.gl/wMxBc6gUwCG2kMke6" target="_blank" class="navbtn">
+        📍 Navigáció a Dolná Ružová utcácskához
+    </a>
+    <br>
+    <a href="index.html" class="home-btn">⬅ Vissza a főoldalra</a>
+</div>
+
+</div>
+
+<script>
+// Célpont: Luther-rózsa utcabeli pontja
+const targetLat = 48.45900383324572;
+const targetLon = 18.895239733318583;
+
+const distBtn  = document.getElementById("distBtn");
+const distText = document.getElementById("distText");
+
+// Haversine-távolság méterben
+function distanceMeters(lat1, lon1, lat2, lon2) {
+    const R = 6371000;
+    const toRad = x => x * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+function formatDistance(m) {
+    if (m < 5)  return "Nagyjából a keresett ház közelében vagytok.";
+    if (m < 1000) return m.toFixed(0) + " méter";
+    return (m / 1000).toFixed(2) + " km";
+}
+
+distBtn.addEventListener("click", function () {
+    if (!("geolocation" in navigator)) {
+        distText.textContent = "A böngésző nem támogatja a helymeghatározást.";
+        return;
+    }
+
+    distText.textContent = "Helyzet lekérése...";
+
+    navigator.geolocation.getCurrentPosition(function (pos) {
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
+        const dist = distanceMeters(lat, lon, targetLat, targetLon);
+        distText.textContent =
+            "Jelenlegi távolság a keresett háztól: " + formatDistance(dist);
+    }, function () {
+        distText.textContent =
+            "Nem sikerült lekérni a helyzetet. Ellenőrizd a GPS és a jogosultság beállításait.";
+    }, {
+        enableHighAccuracy: true,
+        maximumAge: 5000,
+        timeout: 10000
+    });
+});
+</script>
+
+</body>
+</html>

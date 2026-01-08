@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<title>Kincses Selmecbánya</title>
+
+<!-- Mobil optimalizálás -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: Georgia, serif;
+    background: url('images/Ovar-Selmecbanya-2048x1366.jpg') center/cover no-repeat fixed;
+    padding: 20px;
+    margin: 0;
+}
+
+/* háttér mögé enyhe elsötétítés az olvashatóságért */
+.overlay {
+    background: rgba(245, 242, 234, 0.88);
+    padding: 20px;
+    border-radius: 12px;
+}
+
+/* Grid – mobil first */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;       
+    gap: 20px;
+}
+
+/* Tablet méret */
+@media (min-width: 600px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Desktop méret */
+@media (min-width: 900px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.item {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay">
+
+<h1>Kincses Selmecbánya</h1>
+
+<div class="grid">
+
+<div class="item"><a href="page1.html">🔍 1. Moja Marína kávézó</a></div>
+<div class="item"><a href="page2.html">🔍 2. Aranyrög</a></div>
+<div class="item"><a href="page3.html">🔍 3. Út a város szívébe</a></div>
+<div class="item"><a href="page4.html">🔍 4. Matyi pincéje</a></div>
+<div class="item"><a href="page5.html">🔍 5. Úrnő palotája</a></div>
+<div class="item"><a href="page6.html">🔍 6. Mennyei család</a></div>
+<div class="item"><a href="page7.html">🔍 7. A költő nyomában</a></div>
+<div class="item"><a href="page8.html">🔍 8. Vár ahonnan minden torony látszik</a></div>
+<div class="item"><a href="page9.html">🔍 9. Luther rózsája</a></div>
+<div class="item"><a href="page10.html">🔍 10. Koronázás</a></div>
+
+<!-- ITT NYÍLIK A TÉRKÉPES OLDAL -->
+<div class="item"><a href="map_magic.html">🗺️ 11. Térkép</a></div>
+<div class="item"><a href="selmecbanyaterkep.html">🗺️ Selmecbánya látnivalók</a></div>
+
+
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<title>7. PONT – Ahol papi nem tanított</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: 'Georgia', serif;
+    background: url('images/aterkepe.jpeg') center/cover no-repeat fixed;
+    color: #f5f5f5;
+    padding: 40px;
+    margin: 0;
+}
+
+.container {
+    max-width: 650px;
+    margin: auto;
+    background: rgba(0,0,0,0.65);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.6);
+}
+
+h1 {
+    font-size: 30px;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #ffe7a3;
+}
+
+p {
+    line-height: 1.6;
+    font-size: 18px;
+    margin-bottom: 14px;
+}
+
+.highlight {
+    color: #ffe7a3;
+    font-weight: bold;
+}
+
+/* Távolságmérés doboz */
+.distance-box {
+    margin: 20px 0 30px 0;
+    padding: 12px 16px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    font-size: 16px;
+    text-align: center;
+}
+.distance-box button {
+    font-family: inherit;
+    font-size: 16px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background: #ffe7a3;
+    color: #2b1b0c;
+    margin-bottom: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.distance-box button:active {
+    transform: scale(0.98);
+}
+.distance-status {
+    display: block;
+    margin-top: 4px;
+    font-size: 15px;
+}
+
+/* KÉP a keretben */
+.section-image {
+    display: block;
+    max-width: 100%;
+    border-radius: 10px;
+    margin: 14px auto 18px auto;
+    box-shadow: 0 0 16px rgba(0,0,0,0.6);
+}
+
+/* IFRAME keretben */
+.embed-wrap {
+    margin: 14px auto 18px auto;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 16px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.10);
+}
+.embed-wrap iframe {
+    width: 100%;
+    height: 360px;
+    border: 0;
+    display: block;
+}
+
+/* Főoldal gomb */
+.home-btn {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    background: #ffe7a3;
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 0 12px rgba(0,0,0,0.6);
+    font-size: 17px;
+}
+
+/* Mobil finomhangolás */
+@media (max-width: 480px) {
+    body {
+        padding: 20px 10px;
+    }
+    .container {
+        padding: 22px 16px;
+    }
+    h1 {
+        font-size: 24px;
+    }
+    p {
+        font-size: 17px;
+    }
+    .embed-wrap iframe {
+        height: 300px;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>7. PONT – A költő nyomában</h1>
+
+<div class="distance-box">
+    <button id="startNavBtn">Távolság mérése (GPS)</button>
+    <span id="distanceText" class="distance-status">
+        Engedélyezd a helymeghatározást a böngészőben, hogy lásd, milyen messze vagytok a líceumtól.
+    </span>
+</div>
+
+<p>A következő állomás Selmecbánya egyik legfontosabb <span class="highlight">iskolája</span>, az evangélikus líceum. A feladat most nem Petőfi neve, azt már használtátok, hanem az, hogy <span class="highlight">találjátok meg magát az épületet</span> a téren felfelé haladva. Ebben segít a lap alján a beillesztett nézet is.</p>
+
+<p><span class="highlight">Petőfi Sándor</span> az <span class="highlight">1838 és 1839-es tanévben</span> tanult itt, elsőéves rétorként (A rétor az akkori iskolákban a felsőbb évfolyam egyikének tanulóját jelentette, így Petőfi Sándor az 1838–1839-es tanévben a rétori osztály első évét végezte). Aszódról még jó bizonyítvánnyal érkezett, Selmecen viszont a beszámolók szerint hamar elkezdett “szétesni” a tanulmányi rendje, és volt olyan tanára is, aki elvette a kedvét a tanulástól.</p>
+
+<p>Van egy különösen beszédes nyoma ennek az időszaknak. Petőfi egy, <span class="highlight">Selmecen 1838. november 1-jén</span> keltezett levelében megemlíti, hogy a retorikát és a poétikát egy jó nevű tanár, Boleman mellett szerette, de más tárgyakban nemigen lehetett “nagy előmenetelt” elérni. Ebből is látszik, hogy a város diákélete egyszerre volt fegyelmezett iskola és egy olyan közeg, ahol az irodalom már nagyon korán elkezdett erősebben húzni, mint a tanrend.</p>
+
+<p>A líceum magyar önképző, irodalmi körei is fontosak voltak. A selmeci diákvilágban már nem csak “tanulni kellett”, hanem vitázni, felolvasni, szöveget csiszolni. Ez Petőfinek kifejezetten testhezálló volt, még akkor is, ha a hivatalos iskolai keretekkel folyamatosan ütközött.</p>
+
+<p>A főhomlokzaton egy <span class="highlight">emléktábla</span> jelzi, hogy Petőfi itt folytatta tanulmányait ebben a tanévben. Most ez a célpontotok.</p>
+
+<p class="highlight" style="font-size:19px; text-align:center; margin-top:24px;">
+Keressétek meg az emléktáblát a líceum falán, forogjatok rá az épületre a téren,
+és jegyezzétek fel a táblán szereplő tanév kezdő évszámát.
+</p>
+
+<p style="text-align:center; margin-top:10px;">
+Erre az évszámra lesz szükségetek,<br>
+hogy kinyissátok a következő állomást:<br>
+<span class="highlight">„Vár ahonnan minden torony látszik”.</span>
+</p>
+
+<p>Ha úgy tetszik, Petőfi itt kezdett igazán azzá válni, akit ma már mindenki ismer.</p>
+
+<!-- KÉP a keretben (alt üres, így nem fog kiírni semmit sorokban akkor sem, ha hiányzik a fájl) -->
+<img src="images/emlektabla_liceum_falan.jpg" alt="" class="section-image">
+
+<!-- Street View / térkép nézet keretben -->
+<div class="embed-wrap">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!4v1767862420527!6m8!1m7!1sx1MXdBGYPhMStscFHq-9jQ!2m2!1d48.46058475311175!2d18.89199423557073!3f80.31625267154924!4f26.035088421449515!5f0.40600088638746873"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+</div>
+
+<div style="text-align:center; margin-top:28px;">
+    <a href="index.html" class="home-btn">⬅ Vissza a Főoldalra</a>
+</div>
+
+</div>
+
+<script>
+// Célpont: a líceum közelében lévő pont
+const targetLat = 48.46062927377808;
+const targetLon = 18.892079876013412;
+
+const startBtn = document.getElementById("startNavBtn");
+const distanceText = document.getElementById("distanceText");
+let watchId = null;
+
+// Haversine-távolság méterben
+function distanceMeters(lat1, lon1, lat2, lon2) {
+    const R = 6371000;
+    const toRad = x => x * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+function formatDistance(m) {
+    if (m < 5)  return "Nagyjából a líceumnál vagytok.";
+    if (m < 1000) return m.toFixed(0) + " méter";
+    return (m / 1000).toFixed(2) + " km";
+}
+
+function onPosition(pos) {
+    const lat = pos.coords.latitude;
+    const lon = pos.coords.longitude;
+    const dist = distanceMeters(lat, lon, targetLat, targetLon);
+    distanceText.textContent =
+        "Jelenlegi távolság a líceumtól: " + formatDistance(dist);
+}
+
+function onError(err) {
+    distanceText.textContent =
+        "Nem sikerült lekérni a helyzetet. Ellenőrizd a GPS-t és a jogosultságokat.";
+}
+
+startBtn.addEventListener("click", function () {
+    if (!("geolocation" in navigator)) {
+        distanceText.textContent =
+            "A böngésző nem támogatja a helymeghatározást.";
+        return;
+    }
+
+    // ha már fut, állítsuk le
+    if (watchId !== null) {
+        navigator.geolocation.clearWatch(watchId);
+        watchId = null;
+        distanceText.textContent = "A távolságmérés szünetel.";
+        startBtn.textContent = "Távolság mérése (GPS)";
+        return;
+    }
+
+    distanceText.textContent = "Helyzet lekérése...";
+    startBtn.textContent = "Mérés leállítása";
+
+    watchId = navigator.geolocation.watchPosition(onPosition, onError, {
+        enableHighAccuracy: true,
+        maximumAge: 5000,
+        timeout: 10000
+    });
+});
+</script>
+
+</body>
+</html>

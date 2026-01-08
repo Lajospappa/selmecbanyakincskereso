@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<title>Mennyei család – Út az Újvártól a Szentháromság térig</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+body {
+    font-family: 'Georgia', serif;
+    background: url('images/szentharomsag.jpg') center/cover no-repeat fixed;
+    margin: 0;
+    padding: 0;
+    color: #f5f2e9;
+
+    /* hogy a MapDock zárt állapotban se takarja a végét */
+    padding-bottom: calc(86px + env(safe-area-inset-bottom));
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: rgba(0,0,0,0.55);
+    padding: 30px 22px 40px 22px;
+    border-radius: 14px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.7);
+}
+
+h1 {
+    text-align: center;
+    color: #ffe7a3;
+    margin-bottom: 18px;
+}
+
+h2 {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    color: #ffe7a3;
+}
+
+p {
+    line-height: 1.7;
+    font-size: 18px;
+    margin-bottom: 14px;
+}
+
+/* Képek */
+.section-image {
+    display: block;
+    max-width: 100%;
+    border-radius: 10px;
+    margin: 14px auto 18px auto;
+    box-shadow: 0 0 16px rgba(0,0,0,0.6);
+}
+
+/* Navigációs gombok – ÉGSZÍNKÉK */
+.navbtn {
+    display:inline-block;
+    margin: 8px 0 6px 0;
+    padding: 8px 14px;
+    background:#68c7ff;
+    color:#033048;
+    font-weight:bold;
+    font-size:14px;
+    border-radius:7px;
+    text-decoration:none;
+    box-shadow:0 0 8px rgba(0,0,0,0.4);
+}
+
+/* hogy buttonként is ugyanúgy nézzen ki */
+button.navbtn{
+    border:none;
+    cursor:pointer;
+    font-family: inherit;
+}
+
+/* Távolság doboz minden ponthoz */
+.distance-box {
+    margin: 4px 0 16px 0;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: rgba(0,0,0,0.45);
+    font-size: 15px;
+}
+.distance-box button {
+    font-family: inherit;
+    font-size: 15px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background: #ffe7a3;
+    color: #2b1b0c;
+    margin-bottom: 4px;
+}
+.distance-box button:active {
+    transform: scale(0.98);
+}
+.distance-status {
+    display: block;
+    margin-top: 2px;
+    font-size: 14px;
+}
+
+/* Főoldal gomb */
+.home {
+    display:inline-block;
+    margin-top:25px;
+    padding:12px 22px;
+    background:#ffe7a3;
+    color:#333;
+    font-weight:bold;
+    border-radius:8px;
+    text-decoration:none;
+    box-shadow:0 0 12px rgba(0,0,0,0.6);
+    font-size:17px;
+}
+
+/* Mobil finomhangolás */
+@media (max-width: 480px) {
+    .container {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        padding: 22px 16px 30px 16px;
+    }
+    p { font-size: 17px; }
+    h1 { font-size: 25px; }
+}
+
+/* ===== MAP DOCK (Toszkán stílus) ===== */
+.map-dock{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    height: 520px;
+    padding-bottom: env(safe-area-inset-bottom);
+
+    transform: translateY(calc(100% - 56px));
+    transition: transform 220ms ease;
+
+    background: transparent;
+    border-top: 0;
+    box-shadow: none;
+}
+
+.map-dock.open{
+    transform: translateY(0);
+}
+
+/* középre tett panel háttér */
+.map-dock::before{
+    content:"";
+    position:absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    bottom: 0;
+
+    width: min(800px, calc(100% - 28px));
+    background: rgba(0,0,0,0.78);
+    border-top: 1px solid rgba(255,255,255,0.12);
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    box-shadow: 0 -8px 24px rgba(0,0,0,0.35);
+
+    pointer-events: none;
+}
+
+/* handle + body */
+.map-dock-handle,
+.map-dock-body{
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.map-dock-handle{
+    height: 56px;
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    padding: 0 14px;
+
+    user-select: none;
+
+    /* csak a gomb kattintható */
+    pointer-events: none;
+}
+
+.map-dock-title{
+    font-weight: 800;
+    color: #f5f2e9;
+    pointer-events: none;
+}
+
+.map-dock-btn{
+    appearance: none;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.08);
+    color: #f5f2e9;
+    border-radius: 12px;
+    padding: 8px 10px;
+    font-weight: 800;
+    cursor: pointer;
+
+    pointer-events: auto; /* csak ez kap clicket */
+}
+
+.map-dock-body{
+    height: calc(520px - 56px);
+    padding: 0 14px 14px 14px;
+}
+
+#map{
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.10);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.30);
+    overflow: hidden;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>6. Mennyei család – Út az Újvártól a Szentháromság térig</h1>
+
+<p>Miután magatok mögött hagyjátok az Újvár fehér falait, lefelé indultok a temető és a parkoló mellett. A hegyoldal lassan kinyílik, a házak sűrűsödnek, és lépésről lépésre közelebb kerültök Selmecbánya igazi szívéhez. Ez az út nem csak egy séta a várból a főtér felé, hanem mintha egy idővonalon haladnátok végig: erődből kapun át a bányászok hajnalába, onnan a város tanácsaihoz, a polgárok templomához, végül a szerelem és a Szentháromság központi teréig.</p>
+
+<h2>Kálvária – a város fölött őrködő hegy</h2>
+<img src="images/Kalvaria.jpg" alt="Selmecbánya Kálvária" class="section-image">
+<p>Mielőtt lejjebb lépnétek, érdemes egy pillanatra megállni és felnézni a távolban magasodó <strong>Kálváriára</strong>. A hegy oldalában három templom és kápolnák sora kapaszkodik felfelé, mint egy hosszú imádság, amely a város fölött lebeg. A 18. század közepén épült, és a térség egyik legjelentősebb barokk kálváriájaként tartják számon.</p>
+<p>A stációk Krisztus szenvedéstörténetét járják végig, miközben a zarándok egyre magasabbról néz vissza a kráter alakú hegykoszorú ölelésében fekvő városra. Innen, lentről nézve is érteni lehet, miért gondolták az egykori bányászok úgy, hogy Selmecbányát nem csak erődök, hanem imádságok is védik.</p>
+
+<h2>Városkapu – a régi őrhely</h2>
+<img src="images/varoskapu.jpg" alt="Városkapu Selmecbányán" class="section-image">
+
+<a href="https://maps.app.goo.gl/U4uNewB8FCkMtWG28" target="_blank" class="navbtn">📍 Navigáció a városkapuhoz</a>
+<button type="button" class="navbtn" onclick="showOnMap('gate')">🗺️ Mutasd a térképen</button>
+
+<div class="distance-box">
+    <button id="gateBtn">Távolság mérése (GPS)</button>
+    <span id="gateText" class="distance-status">
+        Engedélyezd a helymeghatározást a böngészőben.
+    </span>
+</div>
+
+<p>Ahogy lejjebb értek a hegyről, egy régi kapu maradványa fogad: ez a <strong>városkapu</strong>, Selmecbánya egykori falrendszerének fontos része. A 16. században erősítették meg, amikor a török támadások egyre nagyobb fenyegetést jelentettek, és a bányavárost kőből rakott pajzsként vették körül a falak.</p>
+<p>A kapun át haladtak be a teherrel érkező szekerek, a kereskedők, a diákok és a bányászfalvakból érkező munkások. Ma már inkább csak emlékeztet arra, hogy aki itt belép, nem egy átlagos kisváros utcáira érkezik, hanem egy olyan helyre, ahol az arany és ezüst egyszer egész Európa történetét mozgatta.</p>
+
+<h2>Kopogtató ház – Klopačka, a bányászok ébresztőórája</h2>
+<img src="images/Klopacska.jpg" alt="Klopacska, a Kopogtató Ház" class="section-image">
+
+<a href="https://maps.app.goo.gl/6QeHAt8cPnbpb4Ed6" target="_blank" class="navbtn">📍 Navigáció a Klopačkához</a>
+<button type="button" class="navbtn" onclick="showOnMap('klop')">🗺️ Mutasd a térképen</button>
+
+<div class="distance-box">
+    <button id="klopBtn">Távolság mérése (GPS)</button>
+    <span id="klopText" class="distance-status">
+        Engedélyezd a helymeghatározást a böngészőben.
+    </span>
+</div>
+
+<p>Tovább sétálva eléritek a <strong>Kopogtató házat</strong>, vagy ahogy a helyiek emlegetik, a Klopačka tornyot. Első pillantásra kedves, régi ház, ma teázó, de a múltja sokkal keményebb: itt szó szerint „lekopogták” a bányászok napját.</p>
+<p>A 17. században a felső szinten egy nagy fából készült kopogtatószerkezet működött. Hajnal előtt, nagyjából fél három körül jellegzetes kopogás jelezte, hogy indul a műszak, ideje lemenni a föld alá. Más ritmusok külön figyelmeztetéseket jelentettek: tűzvész, bányaszerencsétlenség, ellenséges veszély vagy temetés. A bányászok élete szó szerint ehhez a hanghoz igazodott.</p>
+<p>Kevesen tudják, hogy az alsó szinten valaha a rendbontó bányászok „mini börtöne” is volt. Ma már csak a csésze tea koppan a csészealjon, de ha csendben figyeltek, szinte hallani lehet a régi kopogtatás visszhangját a falakban.</p>
+
+<h2>Városháza és az óra különös titka</h2>
+<img src="images/varoshaza1.jpg" alt="Selmecbánya Városháza" class="section-image">
+
+<a href="https://maps.app.goo.gl/dJjbyZMbzzJGRths9" target="_blank" class="navbtn">📍 Navigáció a Városházához</a>
+<button type="button" class="navbtn" onclick="showOnMap('varoshaza')">🗺️ Mutasd a térképen</button>
+
+<div class="distance-box">
+    <button id="varoshazaBtn">Távolság mérése (GPS)</button>
+    <span id="varoshazaText" class="distance-status">
+        Engedélyezd a helymeghatározást a böngészőben.
+    </span>
+</div>
+
+<p>A séta következő állomása a <strong>Városháza</strong>. Az épület középkori magja a 14. századig nyúlik vissza, mai barokk formáját a 18. századi átépítések során nyerte el. Falai között évszázadokon át itt hozták a döntéseket bányajogról, kereskedelemről, adókról és a város mindennapi életéről.</p>
+<p>A legtöbb látogatónak azonban azonnal az tűnik fel, hogy a torony órája „furcsán” működik: <strong>a nagy mutató az órát, a kicsi a perceket mutatja</strong>. Egy magyarázat szerint a hegyoldalról, messziről néző bányászok és polgárok számára az volt a lényeg, hogy nagy vonalakban tudják, hány óra van, a percek csak másodlagosak voltak – ezért lett nagyobb az óramutató.</p>
+<p>Egy másik, játékosabb legenda úgy tartja, hogy a városba érkező kereskedőket akarták ezzel kissé megtréfálni, akik nem lelkesedtek a költségek állásáért. Ha igaz, ha nem, a történet jól illik Selmecbányához: itt az időt is kicsit másképp mérték, mint máshol.</p>
+
+<h2>Szent Katalin templom – a polgárok temploma</h2>
+<img src="images/stkatalin.jpg" alt="Szent Katalin templom" class="section-image">
+
+<a href="https://maps.app.goo.gl/1yGmxVYssquJUeRy7" target="_blank" class="navbtn">📍 Navigáció a Szent Katalin templomhoz</a>
+<button type="button" class="navbtn" onclick="showOnMap('katalin')">🗺️ Mutasd a térképen</button>
+
+<div class="distance-box">
+    <button id="katalinBtn">Távolság mérése (GPS)</button>
+    <span id="katalinText" class="distance-status">
+        Engedélyezd a helymeghatározást a böngészőben.
+    </span>
+</div>
+
+<section class="poi-block" id="poi-szent-katalin">
+  <h2>Selmecbánya, Szent Katalin templom</h2>
+
+  <p>
+    A Városháza mellett emelkedik Selmecbánya késő gótikus Szent Katalin temploma, a 15. század végének városi „polgártemplom” hangulatával.
+    A legérdekesebb benne nem csak a forma, hanem a szerepe is: a 17. századtól a város „nem német” ajkú lakossága, szlovákok és magyarok is itt talált lelki otthonra,
+    ezért sokan a polgárok templomának nevezték.
+  </p>
+
+  <h3>Miért különleges, mi a furcsa benne</h3>
+  <ul>
+    <li>
+      <strong>Nyelv és identitás lenyomata</strong>
+      A templom nem csupán vallási hely, hanem egy régi városi törésvonal „térképe” is, ki hol, milyen nyelven, milyen közösségben talált helyet magának.
+    </li>
+    <li>
+      <strong>Védőszent, aki „nem illik” a bányászváros kliséjéhez</strong>
+      Alexandriai Szent Katalin a hagyomány szerint művelt, bátor fiatal nő volt, aki a császári udvar filozófusaival vitázott,
+      és hite mellett kitartva mártírhalált szenvedett. Egy bányászvárosban ez elsőre meglepő választás.
+    </li>
+    <li>
+      <strong>Miért pont ő</strong>
+      A bányászok, diákok és tanítók számára Katalin a bölcsességet és a lelki szilárdságot jelentette.
+      Selmecbányán a bányászat mögött mindig ott volt a tudomány és az akadémiai szellem, így a „tudás szentje” nagyon is logikus, mégis szokatlanul beszédes patrónus.
+    </li>
+    <li>
+      <strong>Helye a város szívében</strong>
+      Az, hogy közvetlenül a Városháza mellett áll, szépen összeköti a városi élet két pólusát, a mindennapi döntéseket és a lelki kapaszkodót.
+      Ritka, amikor ez ennyire egy helyre sűrűsödik.
+    </li>
+  </ul>
+
+  <p>
+    <strong>Túraterv megjegyzés:</strong>
+    Ez egy rövid megállós pont, kívülről is erős, de igazán akkor működik, ha pár percet hagysz arra, hogy „összeálljon” a kép,
+    hogyan lett egy bányászváros jelképévé egy vitázó, tudós nő szentje.
+  </p>
+</section>
+
+
+<h2>Love Bank – a szerelem trezorja</h2>
+<img src="images/lovebank.jpg" alt="Love Bank Selmecbányán" class="section-image">
+
+<a href="https://maps.app.goo.gl/gtjbmpRjASEMawku5" target="_blank" class="navbtn">📍 Navigáció a Love Bankhoz</a>
+<button type="button" class="navbtn" onclick="showOnMap('love')">🗺️ Mutasd a térképen</button>
+
+<div class="distance-box">
+    <button id="loveBtn">Távolság mérése (GPS)</button>
+    <span id="loveText" class="distance-status">
+        Engedélyezd a helymeghatározást a böngészőben.
+    </span>
+</div>
+
+<p>Ahogy továbbmentek, elérkeztek a <strong>Love Bankhoz</strong>, a Marína házhoz. Ez egy különleges, modern múzeum, amely Andrej Sládkovič <em>„Marína”</em> című versére épül, amelyet a világ leghosszabb szerelmes versének tartanak.</p>
+
+<style>
+  .poi-image {
+    width: 100%;
+    margin: 16px 0;
+    border-radius: 12px;
+  }
+
+  figure.poi-image {
+    margin: 16px 0;
+  }
+
+  figure.poi-image img {
+    width: 100%;
+    border-radius: 12px;
+    display: block;
+  }
+
+  figure.poi-image figcaption {
+    font-size: 0.85em;
+    opacity: 0.75;
+    margin-top: 6px;
+    text-align: center;
+  }
+</style>
+
+
+<p>A Love Bank lényege a <strong>Szerelem trezorja</strong>. A vers minden betűjéhez, szóközéhez és írásjeléhez tartozik egy kicsi „Love Box” – apró trezor, amelyet párok, családok, barátok választhatnak maguknak. Ezekben a kis rekeszekben saját emlékeiket, leveleiket, apró tárgyaikat tárolhatják akár évtizedekre. Mintha egy bányavárosban nem csak drágaköveket, hanem érzelmeket is el lehetne raktározni a jövőnek.</p>
+
+<img src="images/lovebank2.jpg" alt="Selmecbánya – Szent Katalin templom környezete" class="poi-image">
+
+
+<p>A ház alatti pincéből egykor bányajáratok vezettek tovább a föld alá, akárcsak néhány szomszédos épület alól. Néhány éve tűzvész érte az épületet, de a Love Bank legfontosabb része, a szerelem trezorja megmaradt – a helyiek szerint ez is bizonyítja, hogy vannak dolgok, amelyek erősebbek a lángoknál.</p>
+
+<h2>Szentháromság tér – paloták és legendák</h2>
+<img src="images/szentharomsag.jpg" alt="Szentháromság tér Selmecbányán" class="section-image">
+
+<a href="https://maps.app.goo.gl/Bme5Li1qL3eZKQkN9" target="_blank" class="navbtn">📍 Navigáció a Szentháromság térre</a>
+<button type="button" class="navbtn" onclick="showOnMap('ter')">🗺️ Mutasd a térképen</button>
+
+<div class="distance-box">
+    <button id="terBtn">Távolság mérése (GPS)</button>
+    <span id="terText" class="distance-status">
+        Engedélyezd a helymeghatározást a böngészőben.
+    </span>
+</div>
+
+<p>Végül megérkeztek Selmecbánya szívébe, a <strong>Szentháromság térre</strong>. A 16. század óta ez a város fő tere, ahol a leggazdagabb bányavállalkozó családok palotái sorakoznak egymás mellett. A reneszánsz és barokk homlokzatok mögött egykori jogi viták, bányatársasági szerződések és persze kisebb-nagyobb családi történetek lapulnak.</p>
+<p>A tér közepén áll a barokk <strong>Szentháromság-szobor</strong>, pestisoszlopként emelt fogadalmi emlék. Az 1710 körüli járvány után fogadták meg a város lakói, hogy ha túlélik a pusztítást, hálájuk jeléül monumentális emléket állítanak. A gazdagon faragott oszlop szentjei, angyalai és felhői úgy törnek az ég felé, mintha maga a város imádsága merevedett volna kővé.</p>
+
+<img src="images/Rubigall.jpg" alt="Rubigall-ház Selmecbányán" class="section-image">
+
+<a href="https://www.google.com/maps?q=48.45945599002962,18.892410972067733" target="_blank" class="navbtn">📍 Navigáció a Rubigall-házhoz</a>
+<button type="button" class="navbtn" onclick="showOnMap('rubigall')">🗺️ Mutasd a térképen</button>
+
+<div class="distance-box">
+    <button id="rubigallBtn">Távolság mérése (GPS)</button>
+    <span id="rubigallText" class="distance-status">
+        Engedélyezd a helymeghatározást a böngészőben.
+    </span>
+</div>
+
+<p>A téren álló paloták között találjuk a gazdag bányászcsaládok egykori házait is. Az egyik ilyen ház – a hagyomány szerint – a <strong>Rubigall családhoz</strong> köthető, akikről egy 16. századi történet beszél. Eszerint <strong>Balassi Bálint</strong>, a magyar reneszánsz költő egy közeli fürdőben csúnyán összeszólalkozott egy fiatal bányavállalkozó fiával. A vita annyira elfajult, hogy Balassi kézzel intézte el az ügyet, majd levelet írt az országgyűlésnek, hogy megvédje becsületét és elmagyarázza, mi vezetett a botrányhoz.</p>
+<p>Későbbi rosszmájú mendemondák arról is suttogtak, hogy Balassi egy férjes asszonnyal is bonyolult történetbe keveredett, és a pletykák messze tovább gyűrűztek a Felvidéken. Ezeket már nehéz pontosan igazolni, de jól illenek egy olyan térhez, ahol a gazdagság, a hírnév és az emberi szenvedélyek folyamatosan egymásnak feszültek. Több ház alatt eredeti tárók és bányajáratok nyíltak, a tér így valójában egy föld alatti labirintus tetején áll.</p>
+<p>És ezzel elértétek a következő állomást: a Szentháromság teret. Innen indul tovább a kincskeresés, a város kövei és történetei között.</p>
+
+<h2>Találós kérdés a 7. ponthoz</h2>
+
+<p>
+Sokat írtam, de sosem gépen,<br>
+Lovon jártam, jegy se kéne.<br>
+Ha elszavalom a Nemzeti dalt,<br>
+Minden magyar talpra áll.
+</p>
+
+<p>
+Ennek a fickónak a neve a kulcs<br>
+a 7. „A költő nyomában” ponthoz.
+</p>
+
+<div style="text-align:center;">
+    <a href="index.html" class="home">⬅ Vissza a Főoldalra</a>
+</div>
+
+</div>
+
+<!-- ===== MAP DOCK a lap alján (ez kell) ===== -->
+<div class="map-dock" id="mapDock">
+  <div class="map-dock-handle" id="mapDockHandle">
+    <div class="map-dock-title">🗺️ Térkép</div>
+    <button class="map-dock-btn" id="mapDockToggle" type="button" aria-expanded="false">▲</button>
+  </div>
+  <div class="map-dock-body">
+    <div id="map"></div>
+  </div>
+</div>
+
+<script>
+/* ===== Távolságmérés (a te meglévő kódod) ===== */
+
+// Haversine távolság méterben
+function distanceMeters(lat1, lon1, lat2, lon2) {
+    const R = 6371000;
+    const toRad = x => x * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+function formatDistance(m) {
+    if (m < 5) return "Nagyjából a helyszínen vagytok.";
+    if (m < 1000) return m.toFixed(0) + " méter";
+    return (m / 1000).toFixed(2) + " km";
+}
+
+function setupDistance(buttonId, textId, targetLat, targetLon, label) {
+    const btn = document.getElementById(buttonId);
+    const text = document.getElementById(textId);
+
+    btn.addEventListener("click", function () {
+        if (!("geolocation" in navigator)) {
+            text.textContent = "A böngésző nem támogatja a helymeghatározást.";
+            return;
+        }
+
+        text.textContent = "Helyzet lekérése...";
+
+        navigator.geolocation.getCurrentPosition(function (pos) {
+            const lat = pos.coords.latitude;
+            const lon = pos.coords.longitude;
+            const dist = distanceMeters(lat, lon, targetLat, targetLon);
+            text.textContent =
+                "Jelenlegi távolság " + label + ": " + formatDistance(dist);
+        }, function () {
+            text.textContent =
+                "Nem sikerült lekérni a helyzetet. Ellenőrizd a GPS és a jogosultság beállításait.";
+        }, {
+            enableHighAccuracy: true,
+            maximumAge: 5000,
+            timeout: 10000
+        });
+    });
+}
+
+// városkapu
+setupDistance("gateBtn", "gateText",
+    48.45549688232658, 18.893265659934563, "a városkaputól");
+
+// Kopogtató ház
+setupDistance("klopBtn", "klopText",
+    48.457847427648865, 18.892376042636386, "a Kopogtató háztól");
+
+// Városháza
+setupDistance("varoshazaBtn", "varoshazaText",
+    48.45873011462128, 18.892658925899386, "a Városházától");
+
+// Szent Katalin templom
+setupDistance("katalinBtn", "katalinText",
+    48.458785335534856, 18.893082302353815, "a Szent Katalin templomtól");
+
+// Love Bank
+setupDistance("loveBtn", "loveText",
+    48.45894872807427, 18.8930927183641, "a Love Banktól");
+
+// Szentháromság tér
+setupDistance("terBtn", "terText",
+    48.459546424238596, 18.89254506246573, "a Szentháromság tértől");
+
+// Rubigall-ház
+setupDistance("rubigallBtn", "rubigallText",
+    48.45945599002962, 18.892410972067733, "a Rubigall-háztól");
+
+
+/* ===== MapDock + Leaflet (piros = saját hely, kék = kiválasztott) ===== */
+
+const DAY_ID = "selmec-06";
+const DOCK_KEY = "mapDockOpen_" + DAY_ID;
+
+const POIS = [
+  { id: "uivar",     n: 1,  name: "Újvár",                 lat: 48.459319547021025, lon: 18.89161814188512 },
+  { id: "gate",      n: 2,  name: "Városkapu",             lat: 48.45549688232658,  lon: 18.893265659934563 },
+  { id: "klop",      n: 3,  name: "Kopogtató ház",         lat: 48.457847427648865, lon: 18.892376042636386 },
+  { id: "varoshaza", n: 4,  name: "Városháza",             lat: 48.45873011462128,  lon: 18.892658925899386 },
+  { id: "katalin",   n: 5,  name: "Szent Katalin templom", lat: 48.458785335534856, lon: 18.893082302353815 },
+  { id: "love",      n: 6,  name: "Love Bank",             lat: 48.45894872807427,  lon: 18.8930927183641 },
+  { id: "ter",       n: 7,  name: "Szentháromság tér",     lat: 48.459546424238596, lon: 18.89254506246573 },
+  { id: "rubigall",  n: 8,  name: "Rubigall-ház",          lat: 48.45945599002962,  lon: 18.892410972067733 }
+];
+
+function escapeHtml(s){
+  return String(s)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#39;");
+}
+
+let map = null;
+let userMarker = null;   // PIROS (saját hely)
+let targetMarker = null; // KÉK (kiválasztott)
+let poiMarkers = new Map();
+
+let userIconRed = null;
+let poiIconGreen = null;
+let targetIconBlue = null;
+
+let __invalidateTimer = null;
+function invalidateMapBurst(){
+  if(!map) return;
+  const fire = (ms) => setTimeout(() => { try{ map.invalidateSize(); } catch(e){} }, ms);
+  fire(0); fire(120); fire(260); fire(520);
+  if(__invalidateTimer) clearTimeout(__invalidateTimer);
+  __invalidateTimer = setTimeout(() => { try{ map.invalidateSize(); } catch(e){} }, 900);
+}
+
+function initIcons(){
+  if(!window.L) return;
+
+  userIconRed = L.icon({
+    iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+    shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+    iconSize: [25,41],
+    iconAnchor: [12,41]
+  });
+
+  // “alap” POI marker (zöld, hogy a kiválasztott kék látszódjon)
+  poiIconGreen = L.icon({
+    iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png",
+    shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+    iconSize: [25,41],
+    iconAnchor: [12,41]
+  });
+
+  // Kiválasztott marker (kék)
+  targetIconBlue = L.icon({
+    iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png",
+    shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+    iconSize: [25,41],
+    iconAnchor: [12,41]
+  });
+}
+
+function initMap(){
+  const el = document.getElementById("map");
+  if(!el || !window.L) return;
+  if(map) return;
+
+  initIcons();
+
+  map = L.map("map", { doubleClickZoom: true });
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19 }).addTo(map);
+
+  const bounds = [];
+
+  // POI markerek
+  for(const p of POIS){
+    const title = `${p.n}. ${p.name}`;
+    const m = L.marker([p.lat, p.lon], { icon: poiIconGreen }).addTo(map);
+    m.bindPopup(`<b>${escapeHtml(title)}</b>`);
+    m.on("click", () => selectPoi(p.id, true));
+    poiMarkers.set(p.id, m);
+    bounds.push([p.lat, p.lon]);
+  }
+
+  // Kiválasztott (kék) marker
+  targetMarker = L.marker([POIS[0].lat, POIS[0].lon], { icon: targetIconBlue }).addTo(map);
+
+  // Saját hely (piros) marker
+  userMarker = L.marker([POIS[0].lat, POIS[0].lon], { icon: userIconRed }).addTo(map);
+  userMarker.bindPopup("Itt vagyok");
+
+  if(bounds.length){
+    map.fitBounds(bounds, { padding: [28, 28] });
+  } else {
+    map.setView([48.4587, 18.8938], 15);
+  }
+
+  // stabil méretezés
+  if(typeof ResizeObserver !== "undefined"){
+    try{
+      const ro = new ResizeObserver(() => invalidateMapBurst());
+      ro.observe(el);
+    } catch(e){}
+  }
+
+  window.addEventListener("load", () => invalidateMapBurst());
+  invalidateMapBurst();
+
+  // folyamatos GPS frissítés
+  startWatchPosition();
+}
+
+function startWatchPosition(){
+  if(!("geolocation" in navigator)) return;
+
+  try{
+    navigator.geolocation.watchPosition(
+      (pos) => {
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
+        if(userMarker) userMarker.setLatLng([lat, lon]);
+      },
+      () => { /* csendben */ },
+      { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 }
+    );
+  } catch(e){
+    /* ignore */
+  }
+}
+
+function openDock(){
+  const dock = document.getElementById("mapDock");
+  const btn = document.getElementById("mapDockToggle");
+  if(!dock) return;
+
+  dock.classList.add("open");
+  if(btn){
+    btn.textContent = "▼";
+    btn.setAttribute("aria-expanded", "true");
+  }
+  try{ localStorage.setItem(DOCK_KEY, "1"); } catch(e){}
+  invalidateMapBurst();
+}
+
+function closeDock(){
+  const dock = document.getElementById("mapDock");
+  const btn = document.getElementById("mapDockToggle");
+  if(!dock) return;
+
+  dock.classList.remove("open");
+  if(btn){
+    btn.textContent = "▲";
+    btn.setAttribute("aria-expanded", "false");
+  }
+  try{ localStorage.setItem(DOCK_KEY, "0"); } catch(e){}
+  invalidateMapBurst();
+}
+
+function toggleDock(){
+  const dock = document.getElementById("mapDock");
+  if(!dock) return;
+  if(dock.classList.contains("open")) closeDock();
+  else openDock();
+}
+
+function initMapDock(){
+  const dock = document.getElementById("mapDock");
+  const btn = document.getElementById("mapDockToggle");
+  if(!dock || !btn) return;
+
+  // alapértelmezés: desktopon nyitva, mobilon zárva
+  let isOpen = window.matchMedia("(min-width: 900px)").matches;
+
+  try{
+    const raw = localStorage.getItem(DOCK_KEY);
+    if(raw === "1") isOpen = true;
+    if(raw === "0") isOpen = false;
+  } catch(e){}
+
+  if(isOpen) openDock();
+  else closeDock();
+
+  // csak a nyíl gomb kattintható
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleDock();
+  }, { passive: false });
+
+  dock.addEventListener("transitionend", () => invalidateMapBurst());
+}
+
+function selectPoi(id, fromMarker){
+  const p = POIS.find(x => x.id === id);
+  if(!p || !map || !targetMarker) return;
+
+  openDock();
+
+  const title = `${p.n}. ${p.name}`;
+  const ll = [p.lat, p.lon];
+
+  map.setView(ll, 17);
+  targetMarker.setLatLng(ll);
+
+  targetMarker
+    .bindPopup(`<b>${escapeHtml(title)}</b>`)
+    .openPopup();
+
+  // ha markerből jött, már nyitva a popup, ok
+  invalidateMapBurst();
+}
+
+// gombokhoz kint a HTML-ben
+function showOnMap(id){
+  if(!map) initMap();
+  selectPoi(id, false);
+}
+window.showOnMap = showOnMap;
+
+document.addEventListener("DOMContentLoaded", () => {
+  initMapDock();
+
+  // térkép inicializálása rögtön (hogy minden oldalon biztos legyen)
+  // ha szeretnéd csak nyitáskor, ezt a sort ki lehet venni
+  initMap();
+
+  window.addEventListener("resize", () => invalidateMapBurst());
+});
+</script>
+
+</body>
+</html>

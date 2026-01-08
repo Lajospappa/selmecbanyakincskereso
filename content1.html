@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<title>Moja Marína kávézó</title>
+<style>
+body {
+    font-family: 'Georgia', serif;
+    background: url('images/avokado.png') center/cover no-repeat fixed;
+    color: #f5f5f5;
+    padding: 40px;
+    margin: 0;
+}
+.container {
+    max-width: 650px;
+    margin: auto;
+    background: rgba(0,0,0,0.65);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.6);
+}
+h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #ffe7a3;
+}
+p {
+    line-height: 1.55;
+    font-size: 18px;
+}
+.highlight {
+    color: #ffe7a3;
+    font-weight: bold;
+}
+
+/* Távolság doboz */
+.distance-box {
+    margin: 20px 0 30px 0;
+    padding: 12px 16px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.07);
+    font-size: 16px;
+    text-align: center;
+}
+.distance-box button {
+    font-family: inherit;
+    font-size: 16px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background: #ffe7a3;
+    color: #2b1b0c;
+    margin-bottom: 8px;
+}
+.distance-box button:active {
+    transform: scale(0.98);
+}
+.distance-status {
+    display: block;
+    margin-top: 4px;
+    font-size: 15px;
+}
+
+/* gombsorok */
+.btn-row {
+    text-align: center;
+    margin-top: 18px;
+}
+
+/* Navigációs gomb – égkék */
+.nav-btn {
+    display: inline-block;
+    margin: 6px 4px;
+    padding: 9px 18px;
+    background: #68c7ff; /* égkék */
+    color: #033048;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    font-size: 15px;
+}
+.nav-btn:hover {
+    filter: brightness(1.05);
+}
+
+/* Főoldal gomb */
+.home-btn {
+    display: inline-block;
+    margin: 6px 4px 0 4px;
+    padding: 9px 18px;
+    background: #ffe7a3;
+    color: #333;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    font-size: 15px;
+}
+.home-btn:hover {
+    filter: brightness(1.05);
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>1. PONT – Moja Marína kávézó</h1>
+
+<div class="distance-box">
+    <button id="startNavBtn">Távolság mérése (GPS)</button>
+    <span id="distanceText" class="distance-status">
+        Engedélyezd a helymeghatározást a böngészőben.
+    </span>
+</div>
+
+<p>Ez Selmecbánya egyik legjobb kávézója: igyatok egy finom kávét vagy teát,  
+és élvezzétek a város nyugodt, mégis titkokkal teli hangulatát.  
+Ha kinéztek az ablakon, az <span class="highlight">Árkádot</span> látjátok –  
+azt a főutca menti legendás sétányt, ahol a selmeci diákok egykor fel-alá járkáltak,  
+hogy a lányokkal ismerkedjenek.  
+A macskaköveken ma is visszhangzik a régi udvarlások játékos izgalma.</p>
+
+<p>A városban élt <span class="highlight">Andrej Kmeť</span> (Kmety András) is,  
+aki Selmecbánya tudományos szellemében vált sokoldalú felfedezővé:  
+itt kezdett együtt dolgozni professzorokkal, új növényfajokat azonosított,  
+és olyan kutatóként vált ismertté, akinek minden selmeci ösvény újabb titkot rejtett.  
+Bár papként szolgált, a város kalandos és pezsgő világa formálta igazi tudós-kalandorrá.</p>
+
+<h2 style="color:#ffe7a3; text-align:center; margin-top:30px;">Feladat</h2>
+
+<p>Keressétek meg, hol áll ma is <span class="highlight">Andrej Kmeť szobra</span>.  
+Álljatok meg vele szemben, majd nézzetek jobbra –  
+ott, egy nagy kapu mögött találjátok az első hivatalos állomást.</p>
+
+<p>Ahhoz, hogy a játékban tovább tudjatok menni, be kell gyüjteni a kulcsot,  
+derítsétek ki, <span class="highlight">milyen gyümölcsöt ettem itt ebben a kávézóban reggelire</span>,  
+amelyről olyan jó review-t írtam.</p>
+
+<p class="highlight" style="font-size:20px; text-align:center; margin-top:25px;">
+Ez a gyümölcs nyitja meg előttetek az „Aranyrög” kaland kapuját.
+</p>
+
+<!-- Navigációs gomb – FŐOLDAL fölött -->
+<div class="btn-row">
+    <a href="https://maps.app.goo.gl/v3MMfonkRRDs3Hmv5" target="_blank" class="nav-btn">
+        📍 Navigáció a Moja Marína kávézóhoz
+    </a>
+</div>
+
+<div class="btn-row">
+    <a href="index.html" class="home-btn">⬅ Vissza a főoldalra</a>
+</div>
+
+</div>
+
+<script>
+// Moja Marína kávézó koordinátái
+const targetLat = 48.45861370102526;
+const targetLon = 18.89438880686781;
+
+const startBtn = document.getElementById("startNavBtn");
+const distanceText = document.getElementById("distanceText");
+let watchId = null;
+
+// Haversine távolság méterben
+function distanceMeters(lat1, lon1, lat2, lon2) {
+    const R = 6371000;
+    const toRad = x => x * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+function formatDistance(m) {
+    if (m < 5) return "Nagyjából a kávézónál vagy.";
+    if (m < 1000) return m.toFixed(0) + " méter";
+    return (m / 1000).toFixed(2) + " km";
+}
+
+function onPosition(pos) {
+    const lat = pos.coords.latitude;
+    const lon = pos.coords.longitude;
+    const dist = distanceMeters(lat, lon, targetLat, targetLon);
+    distanceText.textContent =
+        "Jelenlegi távolság a kávézótól: " + formatDistance(dist);
+}
+
+function onError(err) {
+    distanceText.textContent =
+        "Nem sikerült lekérni a helyzetet. Ellenőrizd a GPS és a jogosultság beállításait.";
+}
+
+startBtn.addEventListener("click", function () {
+    if (!("geolocation" in navigator)) {
+        distanceText.textContent =
+            "A böngésző nem támogatja a helymeghatározást.";
+        return;
+    }
+
+    if (watchId !== null) {
+        // már fut, leállítjuk
+        navigator.geolocation.clearWatch(watchId);
+        watchId = null;
+        distanceText.textContent = "A távolságmérés szünetel.";
+        startBtn.textContent = "Távolság mérése (GPS)";
+        return;
+    }
+
+    distanceText.textContent = "Helyzet lekérése...";
+    startBtn.textContent = "Mérés leállítása";
+
+    watchId = navigator.geolocation.watchPosition(onPosition, onError, {
+        enableHighAccuracy: true,
+        maximumAge: 5000,
+        timeout: 10000
+    });
+});
+</script>
+
+</body>
+</html>

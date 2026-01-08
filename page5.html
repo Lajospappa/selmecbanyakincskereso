@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<title>Úrnő palotája – Kód bekérés</title>
+
+<!-- Mobil optimalizálás -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: 'Georgia', serif;
+    background: url('images/jvár.jpg') center/cover no-repeat fixed;
+    margin: 0;
+    padding: 0;
+    color: #f5f5f5;
+}
+
+/* középső doboz */
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 24px 20px 30px 20px;
+    border-radius: 14px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.7);
+}
+
+/* cím */
+h2 {
+    font-size: 26px;
+    margin-top: 0;
+    margin-bottom: 14px;
+    text-align: center;
+    color: #ffe7a3;
+}
+
+/* szöveg */
+p {
+    font-size: 18px;
+    line-height: 1.6;
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+/* input + gomb */
+input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 4px;
+    font-size: 18px;
+    border-radius: 8px;
+    border: none;
+    box-sizing: border-box;
+}
+
+.btn {
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    margin-top: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: inherit;
+    text-align: center;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background: #ffe7a3;
+    color: #333;
+    box-shadow: 0 0 10px rgba(0,0,0,0.6);
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+/* hibaüzenet */
+#error {
+    margin-top: 10px;
+    font-size: 15px;
+    color: #ffb3b3;
+    text-align: center;
+}
+
+/* Mobil finomhangolás */
+@media (max-width: 480px) {
+    .container {
+        margin: 20px 10px;
+        padding: 20px 14px 24px 14px;
+    }
+    h2 {
+        font-size: 24px;
+    }
+    p, .btn, input[type="text"] {
+        font-size: 17px;
+    }
+}
+</style>
+
+<script>
+function check() {
+    var v = document.getElementById("code").value.trim().toLowerCase();
+    // kulcs ehhez a ponthoz: szalamandra (a 4. állomás mozaikos lényeinek neve)
+    if (v === "szalamandra") {
+        window.location.href = "content5.html";
+    } else {
+        document.getElementById("error").textContent =
+            "Ez most nem nyitotta ki a palota kapuját. Gondolj arra, milyen lények kúsztak az oszlopon az előző állomáson.";
+    }
+}
+</script>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>5. PONT – Úrnő palotája</h2>
+
+    <p>Az előző állomáson egy oszlop oldalán két különös, színes lényt láttatok  
+    felfelé kúszni, mintha a hegy meséjét őriznék.  
+    Aki emlékszik a nevükre, az most tovább léphet a város fölé emelkedő palotába.</p>
+
+    <p>Írd be annak a teremtménynek a nevét,  
+    amelyet a mozaikon megfigyeltetek –  
+    és ha jól emlékeztek, megnyílik előttetek az Újvár története.</p>
+
+    <input id="code" type="text" autocomplete="off" placeholder="Írd ide a kulcsot">
+    <button class="btn" onclick="check()">➜ Belépés az Úrnő palotájába</button>
+    <div id="error"></div>
+</div>
+
+</body>
+</html>

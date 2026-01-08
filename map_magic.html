@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<title>Selmecbánya – A Varázslók Térképe</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Olvashatóbb középkori betűtípus -->
+<link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background: #2a2a2a; /* középszürke */
+    font-family: "MedievalSharp", serif;
+    color: #f5a623; /* narancssárga */
+    overflow: hidden;
+}
+
+/* Cím */
+h1 {
+    text-align: center;
+    margin: 10px 0;
+    font-size: 32px;
+    color: #f5a623;
+    text-shadow: 0 0 10px #f28824;
+}
+
+/* A térkép fixen a felső fél képernyőn */
+#map {
+    width: 100%;
+    height: 50vh;
+    border-bottom: 3px solid #f28824;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+/* A lista csak ez scrolloz */
+#list-container {
+    position: fixed;
+    top: 50vh;
+    left: 0;
+    width: 100%;
+    height: 50vh;
+    overflow-y: scroll;
+    background: #2a2a2a;
+    padding: 15px;
+}
+
+/* Lista elemek */
+.point-item {
+    padding: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background: #3a3a3a; /* sötét szürke háttér */
+    border-left: 4px solid #f28824;
+    font-size: 22px;
+    transition: .15s;
+}
+
+.point-item:hover {
+    background: #505050;
+    transform: translateX(5px);
+}
+</style>
+</head>
+
+<body>
+
+<h1>Selmecbánya – A Varázslók Térképe</h1>
+
+<div id="map"></div>
+
+<div id="list-container">
+    <div class="point-item" onclick="goTo(1)">1. Szent Katalin templom</div>
+    <div class="point-item" onclick="goTo(2)">2. Velvet Interior</div>
+    <div class="point-item" onclick="goTo(3)">3. Monarchia Restaurant</div>
+    <div class="point-item" onclick="goTo(4)">4. Kopogtató ház</div>
+    <div class="point-item" onclick="goTo(5)">5. Glanzenberg-tárna</div>
+    <div class="point-item" onclick="goTo(6)">6. Városháza</div>
+    <div class="point-item" onclick="goTo(7)">7. Moja Marína kávézó</div>
+    <div class="point-item" onclick="goTo(8)">8. Rubigall ház</div>
+    <div class="point-item" onclick="goTo(9)">9. Óvár</div>
+    <div class="point-item" onclick="goTo(10)">10. Szentháromság tér</div>
+    <div class="point-item" onclick="goTo(11)">11. Városkapu</div>
+    <div class="point-item" onclick="goTo(12)">12. Újvár</div>
+    <div class="point-item" onclick="goTo(13)">13. Reštaurácia Matej</div>
+    <div class="point-item" onclick="goTo(14)">14. Bányamúzeum</div>
+    <div class="point-item" onclick="goTo(15)">15. Love Bank</div>
+</div>
+
+<script>
+// GPS pontok
+var points = {
+    1: [48.458778474079644, 18.893065338672766],
+    2: [48.45829941730642, 18.895435474680212],
+    3: [48.45817379907542, 18.891779748517433],
+    4: [48.457843131457814, 18.89242178790117],
+    5: [48.457398878321044, 18.89954651928789],
+    6: [48.458768874651476, 18.89251472068234],
+    7: [48.45859382644014, 18.8942143213098],
+    8: [48.4592632240785, 18.892564461628098],
+    9: [48.45585776644632, 18.89604413976757],
+    10: [48.459660821214214, 18.892483135756006],
+    11: [48.4554781460307, 18.893316934868203],
+    12: [48.459319547021025, 18.89161814188512],
+    13: [48.458539586572684, 18.89638949750488],
+    14: [48.45816992322699, 18.89557572579342],
+    15: [48.45890914461514, 18.89310602069543]
+};
+
+// Térkép
+var map = L.map('map').setView([48.4587, 18.8938], 15);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19
+}).addTo(map);
+
+// Piros marker – választott pontokhoz
+var targetMarker = L.marker([48.4587, 18.8938], {draggable: false}).addTo(map);
+
+// Kék marker – saját helyzethez
+var userIcon = L.icon({
+    iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+    shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41]
+});
+
+var userMarker = L.marker([48.4587, 18.8938], {icon: userIcon}).addTo(map);
+
+// Lista kattintás → odaugrás
+function goTo(id) {
+    var p = points[id];
+    map.setView(p, 17);
+    targetMarker.setLatLng(p);
+}
+
+// Saját pozíció követése
+if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(
+        pos => {
+            var lat = pos.coords.latitude;
+            var lon = pos.coords.longitude;
+            userMarker.setLatLng([lat, lon]);
+        },
+        err => console.log("GPS hiba:", err),
+        { enableHighAccuracy: true }
+    );
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<title>10. PONT – Velvet Interior (A Végső Kincs)</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: 'Georgia', serif;
+    background: url('images/háziko3.jpg') center/cover no-repeat fixed;
+    color: #f5f5f5;
+    padding: 40px;
+    margin: 0;
+}
+.container {
+    max-width: 750px;
+    margin: auto;
+    background: rgba(0,0,0,0.65);
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 0 22px rgba(0,0,0,0.65);
+}
+h1 {
+    text-align: center;
+    color: #ffe7a3;
+    font-size: 32px;
+    margin-bottom: 14px;
+}
+p {
+    line-height: 1.6;
+    font-size: 19px;
+    margin-bottom: 16px;
+}
+.highlight {
+    color: #ffe7a3;
+    font-weight: bold;
+}
+
+/* képek */
+.img-full {
+    width: 100%;
+    border-radius: 12px;
+    margin: 20px 0;
+    box-shadow: 0 0 12px rgba(0,0,0,0.6);
+}
+
+.img-row {
+    display: flex;
+    gap: 12px;
+    margin: 20px 0;
+}
+.img-row img {
+    width: 50%;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.6);
+}
+
+@media (max-width: 600px) {
+    .img-row {
+        flex-direction: column;
+    }
+    .img-row img {
+        width: 100%;
+    }
+}
+
+/* GPS doboz */
+.distance-box {
+    margin: 10px 0 24px 0;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    font-size: 16px;
+    text-align: center;
+}
+.distance-box button {
+    font-family: inherit;
+    font-size: 16px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background: #ffe7a3;
+    color: #2b1b0c;
+    margin-bottom: 6px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.5);
+}
+.distance-box button:active {
+    transform: scale(0.98);
+}
+.distance-status {
+    display: block;
+    margin-top: 4px;
+    font-size: 15px;
+}
+
+/* Navigáció gomb */
+.nav-wrapper {
+    text-align: center;
+    margin-top: 15px;
+}
+.navbtn {
+    display:inline-block;
+    padding: 10px 18px;
+    background:#68c7ff;
+    color:#033048;
+    font-weight:bold;
+    font-size:16px;
+    border-radius:7px;
+    text-decoration:none;
+    box-shadow:0 0 8px rgba(0,0,0,0.4);
+}
+
+/* Főoldal gomb */
+.home-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #ffe7a3;
+    color: #333;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    font-size: 17px;
+}
+
+/* mobil finomhangolás */
+@media (max-width: 480px) {
+    body { padding: 20px 10px; }
+    .container { padding: 24px 18px; }
+    h1 { font-size: 26px; }
+    p { font-size: 17px; }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>10. PONT – Velvet Interior</h1>
+
+<!-- KÉP 1: nagy -->
+<img src="images/háziko.jpg" class="img-full">
+
+<div class="distance-box">
+    <button id="distBtn">Távolság mérése (GPS)</button>
+    <span id="distText" class="distance-status">
+        Engedélyezd a helymeghatározást, hogy lásd, milyen messze vagytok a végső kincstől.
+    </span>
+</div>
+
+<p>Gratulálunk! Eljutottatok a <span class="highlight">kincskereső játék</span> végére.  
+Ez a hely nem egy tárna, nem egy templom és nem egy torony,  
+hanem egy különleges bolt: a <span class="highlight">Velvet Interior</span>.</p>
+
+<!-- KÉP 2–3 egymás mellett -->
+<div class="img-row">
+    <img src="images/háziko2.jpg">
+    <img src="images/háziko3.jpg">
+</div>
+
+<p>A bolt tele van meleg fényekkel, illatokkal, apró kincsekkel és olyan tárgyakkal,  
+amelyről nehéz eldönteni, hogy díszek vagy történetek.  
+Ha beléptek, olyan, mintha maga Selmecbánya hangulata gyűlt volna össze itt:  
+a régi motívumok, a modern ötletek és a kézműves tárgyak együtt mesélik tovább a város történetét.</p>
+
+<!-- KÉP 4: nagy -->
+<img src="images/háziko4.jpg" class="img-full">
+
+<p>Itt választhatjátok ki <span class="highlight">a saját jutalmatokat</span>.  
+Nincs rossz választás – minden tárgy egy-egy emléket fog őrizni ebből a kalandból.</p>
+
+<p class="highlight">Tipp:</p>
+
+<p>Ha szeretitek a kerámiákat, nézzetek körül az Árkád-soron is!  
+Egy másik boltban csodaszép kézzel készült bögréket, tányérokat és dísztárgyakat találtok.  
+Érdemes benézni, igazi selmeci hangulatot árasztanak.</p>
+
+<p class="highlight" style="text-align:center; font-size:22px; margin-top:25px;">
+🎉 Gratulálunk! Sikeresen teljesítettétek a teljes kincskereső kalandot! 🎉
+</p>
+
+<div class="nav-wrapper">
+    <a href="https://maps.app.goo.gl/MwcjqNfXFLw3WBjA6" target="_blank" class="navbtn">
+        📍 Navigáció a Velvet Interiorhoz
+    </a><br>
+    <a href="index.html" class="home-btn">⬅ Vissza a főoldalra</a>
+</div>
+
+</div>
+
+<script>
+// GPS pont – Velvet Interior
+const targetLat = 48.45844681027856;
+const targetLon = 18.895134826682764;
+
+const distBtn  = document.getElementById("distBtn");
+const distText = document.getElementById("distText");
+
+// Haversine-távolság méterben
+function distanceMeters(lat1, lon1, lat2, lon2) {
+    const R = 6371000;
+    const toRad = x => x * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+function formatDistance(m) {
+    if (m < 5)  return "Nagyjából a Velvet Interior ajtaja előtt vagytok!";
+    if (m < 1000) return m.toFixed(0) + " méter";
+    return (m / 1000).toFixed(2) + " km";
+}
+
+distBtn.addEventListener("click", function () {
+    if (!("geolocation" in navigator)) {
+        distText.textContent = "A böngésző nem támogatja a helymeghatározást.";
+        return;
+    }
+
+    distText.textContent = "Helyzet lekérése...";
+
+    navigator.geolocation.getCurrentPosition(function (pos) {
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
+        const dist = distanceMeters(lat, lon, targetLat, targetLon);
+        distText.textContent =
+            "Jelenlegi távolság a végső kincstől: " + formatDistance(dist);
+    }, function () {
+        distText.textContent =
+            "GPS-hiba. Ellenőrizd a helymeghatározás engedélyét.";
+    }, {
+        enableHighAccuracy: true,
+        maximumAge: 5000,
+        timeout: 10000
+    });
+});
+</script>
+
+</body>
+</html>
